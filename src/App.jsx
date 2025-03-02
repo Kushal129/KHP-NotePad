@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { NotesProvider } from './contexts/NotesContext';
 import Sidebar from './components/Sidebar';
@@ -16,22 +17,17 @@ function App() {
   const [isFirstVisit, setIsFirstVisit] = useState(false);
 
   useEffect(() => {
-    // Check if this is the first visit
     const hasVisitedBefore = localStorage.getItem('hasVisitedBefore');
     if (!hasVisitedBefore) {
       setIsFirstVisit(true);
       localStorage.setItem('hasVisitedBefore', 'true');
     }
 
-    // Setup keyboard shortcuts
     const handleKeyDown = (e) => {
-      // Ctrl/Cmd + / to show shortcuts
       if ((e.ctrlKey || e.metaKey) && e.key === '/') {
         e.preventDefault();
         setShowShortcuts(prev => !prev);
       }
-      
-      // Ctrl/Cmd + B to toggle sidebar
       if ((e.ctrlKey || e.metaKey) && e.key === 'b') {
         e.preventDefault();
         setShowSidebar(prev => !prev);
@@ -49,30 +45,38 @@ function App() {
   return (
     <ThemeProvider>
       <NotesProvider>
-        <div className="flex flex-col h-screen bg-white dark:bg-dark-900 text-dark-900 dark:text-white">
-          <Toolbar toggleSidebar={() => setShowSidebar(prev => !prev)} />
-          
-          <div className="flex flex-1 overflow-hidden">
-            {showSidebar && (
-              <Sidebar className="w-64 border-r border-gray-200 dark:border-dark-700" />
-            )}
-            
-            <div className="flex-1 flex flex-col overflow-hidden">
-              <TabBar />
-              <Editor />
-            </div>
-          </div>
-          
-          <StatusBar />
-          
-          {showShortcuts && (
-            <ShortcutHelp onClose={() => setShowShortcuts(false)} />
-          )}
-          
-          {isFirstVisit && (
-            <WelcomeScreen onClose={closeWelcomeScreen} />
-          )}
-        </div>
+        <Router>
+          <Routes>
+            <Route path="/home" element={
+              <div className="flex flex-col h-screen bg-white dark:bg-dark-900 text-dark-900 dark:text-white">
+                <Toolbar toggleSidebar={() => setShowSidebar(prev => !prev)} />
+
+                <div className="flex flex-1 overflow-hidden">
+                  {showSidebar && (
+                    <Sidebar className="w-64 border-r border-gray-200 dark:border-dark-700" />
+                  )}
+
+                  <div className="flex-1 flex flex-col overflow-hidden">
+                    <TabBar />
+                    <Editor />
+                  </div>
+                </div>
+
+                <StatusBar />
+
+                {showShortcuts && (
+                  <ShortcutHelp onClose={() => setShowShortcuts(false)} />
+                )}
+
+                {isFirstVisit && (
+                  <WelcomeScreen onClose={closeWelcomeScreen} />
+                )}
+              </div>
+            } />
+
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </Router>
       </NotesProvider>
     </ThemeProvider>
   );
