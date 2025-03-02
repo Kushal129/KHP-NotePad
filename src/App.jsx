@@ -47,7 +47,7 @@ function App() {
       <NotesProvider>
         <Router>
           <Routes>
-            <Route path="/home" element={
+            <Route path="/" element={
               <div className="flex flex-col h-screen bg-white dark:bg-dark-900 text-dark-900 dark:text-white">
                 <Toolbar toggleSidebar={() => setShowSidebar(prev => !prev)} />
 
