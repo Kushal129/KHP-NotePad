@@ -1,4 +1,4 @@
-import { FaTimes } from 'react-icons/fa'
+import { FaTimes } from 'react-icons/fa';
 
 function ShortcutHelp({ onClose }) {
   const shortcuts = [
@@ -12,7 +12,7 @@ function ShortcutHelp({ onClose }) {
     { key: 'Ctrl/Cmd + P', description: 'Print current note' },
     { key: 'Ctrl/Cmd + H', description: 'Toggle markdown cheatsheet' },
     { key: 'Ctrl/Cmd + Tab', description: 'Switch between notes' },
-  ]
+  ];
   
   const markdownShortcuts = [
     { syntax: '# Text', description: 'Heading 1' },
@@ -29,11 +29,20 @@ function ShortcutHelp({ onClose }) {
     { syntax: '> Text', description: 'Blockquote' },
     { syntax: '---', description: 'Horizontal rule' },
     { syntax: '| Header | Header |', description: 'Table' },
-  ]
+  ];
+  
+  const drawingShortcuts = [
+    { key: 'Click and drag', description: 'Draw on canvas' },
+    { key: 'Eraser tool', description: 'Erase parts of drawing' },
+    { key: 'Ctrl/Cmd + Z', description: 'Undo last action' },
+    { key: 'Ctrl/Cmd + Shift + Z', description: 'Redo action' },
+    { key: 'Color picker', description: 'Change drawing color' },
+    { key: '+ / -', description: 'Increase/decrease brush size' },
+  ];
   
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-dark-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+      <div className="bg-white dark:bg-dark-800 rounded-lg shadow-xl max-w-3xl w-full max-h-[80vh] overflow-y-auto">
         <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-dark-700">
           <h2 className="text-xl font-semibold">Keyboard Shortcuts</h2>
           <button
@@ -58,7 +67,7 @@ function ShortcutHelp({ onClose }) {
           </div>
           
           <h3 className="text-lg font-medium mb-2">Markdown Syntax</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-6">
             {markdownShortcuts.map((shortcut, index) => (
               <div key={index} className="flex items-center py-1">
                 <code className="px-2 py-1 bg-gray-100 dark:bg-dark-700 rounded text-sm font-mono mr-2 min-w-[100px]">
@@ -68,10 +77,22 @@ function ShortcutHelp({ onClose }) {
               </div>
             ))}
           </div>
+          
+          <h3 className="text-lg font-medium mb-2">Drawing Tools</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            {drawingShortcuts.map((shortcut, index) => (
+              <div key={index} className="flex items-center py-1">
+                <kbd className="px-2 py-1 bg-gray-100 dark:bg-dark-700 rounded text-sm font-mono mr-2">
+                  {shortcut.key}
+                </kbd>
+                <span>{shortcut.description}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default ShortcutHelp
+export default ShortcutHelp;

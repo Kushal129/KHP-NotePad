@@ -1,50 +1,50 @@
-import { useState, useEffect } from 'react'
-import { ThemeProvider } from './contexts/ThemeContext'
-import { NotesProvider } from './contexts/NotesContext'
-import Sidebar from './components/Sidebar'
-import Editor from './components/Editor'
-import Toolbar from './components/Toolbar'
-import TabBar from './components/TabBar'
-import StatusBar from './components/StatusBar'
-import WelcomeScreen from './components/WelcomeScreen'
-import ShortcutHelp from './components/ShortcutHelp'
-import './App.css'
+import { useState, useEffect } from 'react';
+import { ThemeProvider } from './contexts/ThemeContext';
+import { NotesProvider } from './contexts/NotesContext';
+import Sidebar from './components/Sidebar';
+import Editor from './components/Editor';
+import Toolbar from './components/Toolbar';
+import TabBar from './components/TabBar';
+import StatusBar from './components/StatusBar';
+import WelcomeScreen from './components/WelcomeScreen';
+import ShortcutHelp from './components/ShortcutHelp';
+import './App.css';
 
 function App() {
-  const [showSidebar, setShowSidebar] = useState(true)
-  const [showShortcuts, setShowShortcuts] = useState(false)
-  const [isFirstVisit, setIsFirstVisit] = useState(false)
+  const [showSidebar, setShowSidebar] = useState(true);
+  const [showShortcuts, setShowShortcuts] = useState(false);
+  const [isFirstVisit, setIsFirstVisit] = useState(false);
 
   useEffect(() => {
     // Check if this is the first visit
-    const hasVisitedBefore = localStorage.getItem('hasVisitedBefore')
+    const hasVisitedBefore = localStorage.getItem('hasVisitedBefore');
     if (!hasVisitedBefore) {
-      setIsFirstVisit(true)
-      localStorage.setItem('hasVisitedBefore', 'true')
+      setIsFirstVisit(true);
+      localStorage.setItem('hasVisitedBefore', 'true');
     }
 
     // Setup keyboard shortcuts
     const handleKeyDown = (e) => {
       // Ctrl/Cmd + / to show shortcuts
       if ((e.ctrlKey || e.metaKey) && e.key === '/') {
-        e.preventDefault()
-        setShowShortcuts(prev => !prev)
+        e.preventDefault();
+        setShowShortcuts(prev => !prev);
       }
       
       // Ctrl/Cmd + B to toggle sidebar
       if ((e.ctrlKey || e.metaKey) && e.key === 'b') {
-        e.preventDefault()
-        setShowSidebar(prev => !prev)
+        e.preventDefault();
+        setShowSidebar(prev => !prev);
       }
-    }
+    };
 
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [])
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const closeWelcomeScreen = () => {
-    setIsFirstVisit(false)
-  }
+    setIsFirstVisit(false);
+  };
 
   return (
     <ThemeProvider>
@@ -75,7 +75,7 @@ function App() {
         </div>
       </NotesProvider>
     </ThemeProvider>
-  )
+  );
 }
 
-export default App
+export default App;

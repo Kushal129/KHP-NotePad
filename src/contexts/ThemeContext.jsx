@@ -8,7 +8,7 @@ export function useTheme() {
 
 export function ThemeProvider({ children }) {
   const [darkMode, setDarkMode] = useState(true) // Default to dark mode
-  const [theme, setTheme] = useState('default') // default, purple, ocean, etc.
+  const [theme, setTheme] = useState('default') // default, purple, green
 
   useEffect(() => {
     // Load theme preferences from localStorage
@@ -27,6 +27,9 @@ export function ThemeProvider({ children }) {
       document.documentElement.classList.remove('dark')
     }
 
+    // Remove any existing theme classes first
+    document.documentElement.classList.remove('theme-purple', 'theme-green')
+    
     // Apply theme class
     if (savedTheme !== 'default') {
       document.documentElement.classList.add(`theme-${savedTheme}`)
@@ -49,10 +52,8 @@ export function ThemeProvider({ children }) {
   }
 
   const changeTheme = (newTheme) => {
-    // Remove previous theme class
-    if (theme !== 'default') {
-      document.documentElement.classList.remove(`theme-${theme}`)
-    }
+    // Remove all theme classes first
+    document.documentElement.classList.remove('theme-purple', 'theme-green')
     
     // Add new theme class if not default
     if (newTheme !== 'default') {
